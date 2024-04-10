@@ -1,0 +1,178 @@
+.background-image {
+  /* Establece la imagen de fondo y ajusta los estilos según sea necesario */
+  /* background-image: url('../img/load.gif'); */
+  /* Ruta a tu imagen de fondo */
+  background-size: cover;
+  /* Ajusta el tamaño de la imagen para cubrir todo el contenedor */
+  background-position: center;
+  /* Centra la imagen de fondo */
+  background-repeat: no-repeat;
+  /* Evita que la imagen de fondo se repita */
+}
+
+/* Estilos para el logo en el Navbar */
+.navbar-brand img {
+  max-height: 50px;
+  width: auto;
+  margin-top: -5px;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+}
+
+a.nav-link.active:hover {
+  background-color: #9d10f5;
+  border-top-right-radius: 30px;
+  border-bottom-left-radius: 30px;
+  border-top-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  margin-left: 10px;
+  padding-left: 10px;
+
+  transition: background-color 0.5s ease, border-radius 0.5s ease, margin 0.5s ease, padding 0.5s ease;
+}
+
+a.nav-link.dropdown-toggle:hover {
+  background-color: #9d10f5;
+  border-top-right-radius: 30px;
+  border-bottom-left-radius: 30px;
+  border-top-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  margin-left: 10px;
+  padding-left: 10px;
+
+  transition: background-color 0.5s ease, border-radius 0.5s ease, margin 0.5s ease, padding 0.5s ease;
+}
+
+a.dropdown-item:hover {
+  background-color: #c090dd65;
+}
+
+#botonLyou {
+  background-color: #9d10f5;
+}
+
+#botonLyou:hover {
+  background-color: #c090dd;
+  border-top-right-radius: 30px;
+  border-bottom-left-radius: 30px;
+  color: white;
+}
+
+div #formulario {
+  background-color: rgba(193, 223, 224, 0.678);
+}
+
+#formulario select {
+  position: relative;
+  justify-content: flex-end;
+  display: block;
+  /* Mostrar las etiquetas en bloque */
+  margin-bottom: 5px;
+  /* Margen inferior de las etiquetas */
+  font-weight: bold;
+  /* Fuente en negrita para las etiquetas */
+}
+
+#spc {
+  display: flex;
+}
+
+
+/* Ajustar el ancho del primer th */
+.talbe-stats th:first-child {
+  width: 5%;
+  /* Ancho más estrecho para el ID */
+}
+
+/* Ajustar el ancho de las demás columnas */
+.talbe-stats th:not(:first-child),
+.talbe-stats td:not(:first-child) {
+  width: 15%;
+  /* Ancho para las demás columnas */
+}
+
+/* Ajustar el ancho del último th */
+.talbe-stats th:last-child,
+.talbe-stats td:last-child {
+  width: 20%;
+  /* Ancho para la última columna */
+}
+
+
+/* Estilos para la tabla */
+.talbe-stats {
+  margin-top: 20px;
+  /* Margen superior de la tabla */
+  overflow-x: auto;
+  /* Agregar barra de desplazamiento horizontal si es necesario */
+}
+
+.talbe-stats table {
+  width: 100%;
+  /* Ancho completo de la tabla */
+  border-collapse: collapse;
+  /* Colapsar bordes de la tabla */
+}
+
+/* Estilos para las filas de la tabla */
+.talbe-stats th,
+.talbe-stats td {
+  padding: 8px;
+  /* Relleno de las celdas */
+  text-align: center;
+  /* Alineación centrada del texto */
+  border: 1px solid #dddddd;
+  /* Borde de las celdas */
+}
+
+/* Estilos para la cabecera de la tabla */
+.talbe-stats th {
+  background-color: #f2f2f2;
+  /* Color de fondo de la cabecera */
+  font-weight: bold;
+  /* Fuente en negrita */
+}
+
+/* Estilos para las filas impares de la tabla */
+.talbe-stats tr:nth-child(odd) {
+  background-color: #f9f9f9;
+  /* Color de fondo de las filas impares */
+}
+
+/* Estilos para los botones en las celdas de la tabla */
+.talbe-stats .btn {
+  margin: 0;
+  /* Eliminar margen de los botones */
+  /* Convertir los botones en bloques para ocupar todo el ancho */
+  width: auto;
+  /* Ancho completo */
+}
+
+/* Estilos para la última columna de la tabla */
+.talbe-stats td:last-child {
+  white-space: nowrap;
+  /* Evitar que el texto se divida en múltiples líneas */
+  text-align: center;
+  /* Alinear contenido al centro */
+}
+
+/* Estilos para las columnas de la tabla */
+.talbe-stats th,
+.talbe-stats td {
+  width: 20%;
+  /* Ancho de las columnas */
+}
+
+#botones {
+  width: auto;
+  align-items: center;
+  justify-content: center;
+}
+
+#botones .btn {
+  margin-inline: 5px;
+  width: auto;
+}

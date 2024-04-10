@@ -1,0 +1,91 @@
+{% extends "index.html" %}
+{% block title %}
+evidencias
+{% endblock title %}
+
+{% block body %}
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    {% block extrajs %}
+    <script type="text/javascript">
+        var $ = jQuery.noConflict();
+        function abrir_modal_edicion(url) {
+            jQuery('#edicion').load(url, function () {
+                jQuery(this).modal('show');
+            });
+        }
+        function abrir_modal_creacion(url) {
+            jQuery('#creacion').load(url, function () {
+                jQuery(this).modal('show');
+            });
+        }
+    </script>
+    {% endblock extrajs %}
+</head>
+
+<main class="container mt-2">
+    <header>
+        {% if request.user.rol.rol == "estudiante" or request.user.is_staff %}
+        <h2>Administración de evidencias</h2>
+        <button id="botonLyou" class="btn"
+        onclick="abrir_modal_creacion('{% url 'cohorte:crear_evidencia' %}')">Crear evidencia</button>
+        {% endif %}
+    </header>
+    {% if evidencias %}
+    <div class="talbe-stats order-table ov-h">
+        <table class="card card-body table">
+            <thead>
+                <tr id="spc">
+                    <th>ID</th>
+                    <th>Tarea</th>
+                    <th>Descripcion</th>
+                    <th>Fecha de carga</th>
+                    <th>Fecha de Entrega</th>
+                    <th>Archivo adjunto</th>
+                    <th>Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for evidencia in evidencias %}
+                <tr id="spc">
+                    <th>{{evidencia.id }}</th>
+                    <th>{{evidencia.tarea_id.titulo }}</th>
+                    <td>{{evidencia.descripcion}}</td>
+                    <td>{{evidencia.fecha_inicio}}</td>
+                    <td>{{evidencia.tarea_id.fecha_fin}}</td>
+                    <td>{{evidencia.archivo}}</td>
+                    {% if request.user.rol.rol == "estudiante" or request.user.is_staff %}
+                    <td >
+                        <a id="botones"class="btn btn-danger" href="{% url 'cohorte:eliminar_evidencia' evidencia.id %}">Borrar</a>
+                        <button id="botones"class="btn btn-primary"
+                            onclick="abrir_modal_edicion('{% url 'cohorte:editar_evidencia' evidencia.id %}')">Editar</button>
+                        </td>
+                    </tr>
+                    {% elif request.user.rol.rol == "profesor" or request.user.is_staff %}
+                    <td>
+                        <button style="width: 100%;" id="botones" class="btn btn-warning mt-2 btn-block"
+                            onclick="abrir_modal_edicion()">Calificar Evidencia</button>
+                    </td>
+                    {% endif %}
+
+                {% endfor %}
+                {% else %}
+                <div class="mt-2 alert alert-danger alert-dismissible" role="alert">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                    </button>
+                    <strong> 
+                        <h2> No hay evidencias registradas en el sistema</h2>
+                    </strong>
+                </div>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+    <div class="modal fade" id="creacion" role="dialog">
+
+    </div>
+    <div class="modal fade" id="edicion" role="dialog">
+
+    </div>
+</main>
+{% endblock body %}

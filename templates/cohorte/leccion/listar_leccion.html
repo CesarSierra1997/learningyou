@@ -1,0 +1,87 @@
+{% extends "index.html" %}
+{% block title %}
+Lecciones
+{% endblock title %}
+
+{% block body %}
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    {% block extrajs %}
+    <script type="text/javascript">
+        var $ = jQuery.noConflict();
+        function abrir_modal_edicion(url) {
+            jQuery('#edicion').load(url, function () {
+                jQuery(this).modal('show');
+            });
+        }
+        function abrir_modal_creacion(url) {
+            jQuery('#creacion').load(url, function () {
+                jQuery(this).modal('show');
+            });
+        }
+    </script>
+    {% endblock extrajs %}
+</head>
+
+<main class="container mt-2">
+    {% if request.user.rol.rol == "administrador" and request.user.is_staff %}
+    <header>
+        <button id="botonLyou" class="btn" onclick="abrir_modal_creacion('{% url 'cohorte:crear_leccion' %}')">Crear
+            Leccion</button>
+    </header>
+    {% endif %}
+    {% if lecciones %}
+    <div class="talbe-stats order-table ov-h">
+        <table class="card card-body table">
+            <thead>
+                <tr id="spc">
+                    <th>ID</th>
+                    <th>Titulo</th>
+                    <th>Descripcion</th>
+                    <th>Profesor</th>
+                    <th>Fecha Inicio</th>
+                    <th>Fecha Fin</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for leccion in lecciones %}
+                <tr id="spc">
+                    <th>{{ leccion.id }}</th>
+                    <td>{{leccion.titulo}}</td>
+                    <td>{{leccion.descripcion}}</td>
+                    <td>
+                        {{leccion.profesor.nombres}}
+                    </td>
+                    <td>{{leccion.fecha_inicio}}</td>
+                    <td>{{leccion.fecha_fin}}</td>
+                    {% if request.user.rol.rol == "administrador" and request.user.is_staff %}
+                    <td>
+                        <a id="botones" class="btn btn-danger"
+                            href="{% url 'cohorte:eliminar_leccion' leccion.id %}">Deshabilitar</a>
+                        <button id="botones" class="btn btn-primary"
+                            onclick="abrir_modal_edicion('{% url 'cohorte:editar_leccion' leccion.id %}')">Editar</button>
+                    </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+                {% else %}
+                <div class="mt-2 alert alert-danger alert-dismissible" role="alert">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                    </button>
+                    <strong>
+                        <h2> No hay lecciones registradas, registre una nueva leccion</h2>
+                    </strong>
+                </div>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+    <div class="modal fade" id="creacion" role="dialog">
+
+    </div>
+    <div class="modal fade" id="edicion" role="dialog">
+
+    </div>
+</main>
+{% endblock body %}

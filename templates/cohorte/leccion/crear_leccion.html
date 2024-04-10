@@ -1,0 +1,46 @@
+{% extends "index.html" %}
+{% block title %}
+Error Leccion
+{% endblock title %}
+
+{% block body %}
+{% if form.errors %}
+<main class="container py-2">
+    <div class="alert alert-danger container mt-2">
+        <strong>Errores al crear leccion:</strong> Por favor, corrija los errores debajo.
+    </div>
+    <div class="card card-body bg-light">
+        <h2 class="card-title">Crear Leccion</h2>
+        <div class="card-body">
+            <form action="{% url 'cohorte:crear_leccion' %}" method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div class="card-footer text-center">
+                    <a class="btn btn-danger" href="{% url 'cohorte:listar_leccion' %}">Cancelar</a>
+                    <button class="btn btn-primary" type="submit">Confirmar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+{% else %}
+<div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 class="modal-title">Crear Leccion</h2>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form action="{% url 'cohorte:crear_leccion' %}" method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div class="card-footer text-center">
+                    <a class="btn btn-danger" href="{% url 'cohorte:listar_leccion' %}">Cancelar</a>
+                    <button class="btn btn-primary" type="submit">Confirmar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock body %}

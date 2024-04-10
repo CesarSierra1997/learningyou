@@ -1,0 +1,94 @@
+{% extends "index.html" %}
+{% block title %}
+calificaciones
+{% endblock title %}
+
+{% block body %}
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    {% block extrajs %}
+    <script type="text/javascript">
+        var $ = jQuery.noConflict();
+        function abrir_modal_edicion(url) {
+            jQuery('#edicion').load(url, function () {
+                jQuery(this).modal('show');
+            });
+        }
+        function abrir_modal_creacion(url) {
+            jQuery('#creacion').load(url, function () {
+                jQuery(this).modal('show');
+            });
+        }
+    </script>
+    {% endblock extrajs %}
+</head>
+
+<main class="container mt-2">
+    <header>
+        {% if request.user.rol.rol == "profesor" or request.user.is_staff %}
+        <h2>Administración de calificaciones</h2>
+        <button id="botonLyou" class="btn"
+            onclick="abrir_modal_creacion('{% url 'cohorte:crear_calificacion' %}')">Generar Nueva Calificacion</button>
+        {% endif %}
+    </header>
+    {% if calificaciones %}
+    <div class="talbe-stats order-table ov-h">
+        <table class="card card-body table">
+            <thead>
+                <tr id="spc">
+                    <th>ID</th>
+                    <th>Leccion</th>
+                    <th>Evidencia</th>
+                    <th>Observacion</th>
+                    <th>Fecha de calificaion</th>
+                    <th>Nota Calificacion</th>
+                    <th>Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for calificacion in calificaciones %}
+                <tr id="spc">
+                    <th>{{calificacion.id }}</th>
+                    <th>{{calificacion.evidencia_id.tarea_id.leccion_id.titulo }}</th>
+                    <th>{{calificacion.evidencia_id.tarea_id }}</th>
+                    <td>{{calificacion.observacion}}</td>
+                    <td>{{calificacion.fecha_inicio}}</td>
+
+                    {% if calificacion.calificacion > 8 %}
+                    <td style="background-color: rgb(0, 224, 0);">{{calificacion.calificacion}}</td>
+                    {% elif calificacion.calificacion > 6 %}
+                    <td style="background-color: rgb(0, 15, 224);">{{calificacion.calificacion}}</td>
+                    {% else %}
+                    <td style="background-color: rgb(224, 0, 0);">{{calificacion.calificacion}}</td>
+                    {% endif %}
+
+                    {% if request.user.rol.rol == "profesor" or request.user.is_staff %}
+                    <td>
+                        <button id="botones" class="btn btn-primary"
+                            onclick="abrir_modal_edicion('{% url 'cohorte:editar_calificacion' calificacion.id %}')">Modificar
+                            Calificacion</button>
+                    </td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+                {% else %}
+                <div class="mt-2 alert alert-danger alert-dismissible" role="alert">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                    </button>
+                    <strong>
+                        <h2> No hay calificacions registradas en el sistema</h2>
+                    </strong>
+                </div>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+    <div class="modal fade" id="creacion" role="dialog">
+
+    </div>
+    <div class="modal fade" id="edicion" role="dialog">
+
+    </div>
+</main>
+{% endblock body %}

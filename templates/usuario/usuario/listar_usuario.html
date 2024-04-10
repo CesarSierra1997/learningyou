@@ -1,0 +1,89 @@
+{% extends "index.html" %}
+{% block title %}
+Listado de Usuarios
+{% endblock title %}
+
+{% block body %}
+<!-- Enlasamos nuestros estilos de css -->
+{% comment %} {% load static %}
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/styles2.css' %}">
+{% endblock styles %} {% endcomment %}
+<!-- Segimos con el contenido interno -->
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    {% block extrajs %}
+    <script type="text/javascript">
+        var $ = jQuery.noConflict();
+        function abrir_modal_edicion(url) {
+            jQuery('#edicion').load(url, function () {
+                jQuery(this).modal('show');
+            });
+        }
+        function abrir_modal_creacion(url) {
+            jQuery('#creacion').load(url, function () {
+                jQuery(this).modal('show');
+            });
+        }
+    </script>
+    {% endblock extrajs %}
+</head>
+<main class="container mt-2">
+    <header>
+        <button id="botonLyou" class="btn" 
+        onclick="abrir_modal_creacion('{% url 'usuario:registrar_usuario' %}')">Registrar Usuario Nuevo</button>
+    </header>
+    {% if usuarios %}
+    <div class="talbe-stats order-table ov-h">
+        <table class="card card-body table">
+            <thead>
+                <tr id="spc">
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Nombres</th>
+                    <th>Apellidos</th>
+                    <th>Correo</th>
+                    <th>Tipo de usuario</th>
+                    <th>Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for usuario in usuarios %}
+                <tr id="spc">
+                    <th>{{ usuario.id }}</th>
+                    <td>{{usuario.username}}</td>
+                    <td>{{usuario.nombres}}</td>
+                    <td>{{usuario.apellidos}}</td>
+                    <td>{{usuario.email}}</td>
+                    <td>{{usuario.rol}}</td>
+                    <td>
+                        <a class="btn btn-danger m-1" href="{% url 'usuario:eliminar_usuario' usuario.id %}">Deshabilitar</a>
+                        <button id="botones"class="btn btn-primary"
+                            onclick="abrir_modal_edicion('{% url 'usuario:editar_usuario' usuario.id %}')">Editar</button>
+                
+                        </td>
+                </tr>
+                {% endfor %}
+                {% else %}
+                <div class="mt-2 alert alert-danger alert-dismissible" role="alert">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                    </button>
+                    <strong>
+                        <h2>No hay usuarios registrados en el sistema</h2>
+                    </strong>
+                </div>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modales -->
+    <div class="modal fade" id="creacion" role="dialog">
+
+    </div>
+    <div class="modal fade" id="edicion" role="dialog">
+
+    </div>
+</main>
+{% endblock body %}

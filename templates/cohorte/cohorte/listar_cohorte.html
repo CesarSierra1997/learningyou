@@ -1,0 +1,95 @@
+{% extends "index.html" %}
+{% block title %}
+Cohortes
+{% endblock title %}
+
+{% block body %}
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    {% block extrajs %}
+    <script type="text/javascript">
+        var $ = jQuery.noConflict();
+        function abrir_modal_edicion(url) {
+            jQuery('#edicion').load(url, function () {
+                jQuery(this).modal('show');
+            });
+        }
+        function abrir_modal_creacion(url) {
+            jQuery('#creacion').load(url, function () {
+                jQuery(this).modal('show');
+            });
+        }
+    </script>
+    {% endblock extrajs %}
+</head>
+
+<main class="container mt-2">
+    <header>
+        {% if request.user.is_staff %}
+        <h2>Administración de Cohortes</h2>
+        <button id="botonLyou" class="btn"
+        onclick="abrir_modal_creacion('{% url 'cohorte:crear_cohorte' %}')">Crear Cohorte</button>
+        {% endif %}
+    </header>
+    {% if cohortes %}
+    <div class="talbe-stats order-table ov-h">
+        <table class="card card-body table">
+            <thead>
+                <tr id="spc">
+                    <th>ID</th>
+                    <th>Lecciones</th>
+                    <th>Codigo</th>
+                    <th>Titulo</th>
+                    <th>Fecha Fin</th>
+                    <th>Estudiantes</th>
+                    {% if request.user.is_staff %}
+                    <th>Opciones</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for coh in cohortes %}
+                <tr id="spc">
+                    <th>{{ coh.id }}</th>
+                    <td>                       
+                        {% for leccion in coh.leccion_id.all %}
+                            {{leccion.titulo}}
+                        {% endfor %}                           
+                    </td>
+                    <th>{{ coh.codigo }}</th>
+                    <td>{{coh.titulo}}</td>
+                    <td>{{coh.fecha_fin}}</td>
+                    <td>                       
+                        {% for estu in coh.estudiante.all %}
+                            {{estu.nombres}}
+                        {% endfor %}                          
+                    </td>
+                    {% if request.user.is_staff %}
+                    <td >
+                        <a id="botones"class="btn btn-danger" href="{% url 'cohorte:eliminar_cohorte' coh.id %}">Deshabilitar</a>
+                        <button id="botones"class="btn btn-primary"
+                            onclick="abrir_modal_edicion('{% url 'cohorte:editar_cohorte' coh.id %}')">Editar</button>
+                    </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+                {% else %}
+                <div class="mt-2 alert alert-danger alert-dismissible" role="alert">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                    </button>
+                    <strong> 
+                        <h2> No hay Cohortes registrados, registre una cohorte</h2>
+                    </strong>
+                </div>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+    <div class="modal fade" id="creacion" role="dialog">
+
+    </div>
+    <div class="modal fade" id="edicion" role="dialog">
+
+    </div>
+</main>
+{% endblock body %}
